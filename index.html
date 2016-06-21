@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html ng-app=EmployeeApp>
+
+  <head>
+    <script src="http://code.angularjs.org/1.2.0-rc.3/angular.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+  </head>
+
+  <body ng-controller="empCtrl">      
+    <table>
+        <tr>
+            <td align="right">Search :</td>
+            <td><input ng-model="query[queryBy]" /></td>
+        </tr>           
+        <tr>
+            <td align="right">Search By :</td>
+            <td>
+                <select ng-model="queryBy">
+                    <option value="$"></option>
+                    <option value="name">Name</option>
+                    <option value="title">Title</option>
+                    <option value="description">Description</option>
+                    <option value="joiningDate">Joining Date</option>
+                    <option value="yearsOfExpie">Years of Experience</option>
+                </select>   
+            </td>
+        </tr>
+    </table>
+    <hr>
+    <div class="wraper">
+        <table>
+            <tr>
+                <th>Employee Name</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Joining Date</th>
+                <th>Years of Experience</th>
+            </tr>
+            <tr ng-repeat="emp in employees | filter:query">
+                <td>
+                  <div ng-hide="editingData[emp.id]">{{emp.name}}</div>
+                  <div ng-show="editingData[emp.id]"><input type="text" ng-model="emp.name"/></div>
+                </td>
+                <td>
+                  <div ng-hide="editingData[emp.id]">{{emp.title}}</div>
+                  <div ng-show="editingData[emp.id]"><input type="text" ng-model="emp.title"/></div>
+                </td>
+                <td>
+                 <div ng-hide="editingData[emp.id]">{{emp.description}}</div> 
+                 <div ng-show="editingData[emp.id]"><input type="text" ng-model="emp.description"/></div>
+                </td>
+                <td>
+                   <div ng-hide="editingData[emp.id]">{{emp.joiningDate  |  date:'MM/dd/yyyy'}}</div>
+                   <div ng-show="editingData[emp.id]"><input type="date" ng-model="emp.joiningDate"/></div>
+                </td>
+                <td>
+                  <div align="center" ng-hide="editingData[emp.id]">{{emp.yearsOfExpie}}</div>
+                  <div align="center" ng-show="editingData[emp.id]"><input type="text"  ng-model="emp.yearsOfExpie"/></div>
+                </td>
+                <td>
+                  <button ng-click="Delete($index)">Delete</button>
+                </td>
+                <td>
+                  <button ng-hide="editingData[emp.id]" ng-click="modify(emp)">Modify</button>
+               
+                  <button ng-show="editingData[emp.id]" ng-click="update(emp)">Update</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    
+     <div>
+        <h1>Add Data</h1>
+        <form ng-submit="Add()">
+            <div>
+                Name: 
+                <input id="name" type="text" placeholder="Name"  ng-model="newname">
+            </div>
+            <div>
+                Title:
+                <input id="title" type="text" placeholder="Title"  ng-model="newtitle">
+            </div>
+            <div>
+               Description: 
+                <input id="description" type="text" placeholder="Description" ng-model="newdescription">
+            </div>
+             <div>
+                Joining Date: 
+                <input id="joiningDate" type="date" placeholder="Joining Date" ng-model="newjoiningDate">
+            </div>
+             <div>
+               Years of Expierence: 
+                <input id="yearsOfExpie" type="text" placeholder="Years of Expierence" ng-model="newyearsOfExpie">
+            </div>
+            <div class="action">
+                <button type="submit">Add</button>
+                <button ng-click="Reset()">Reset</button>
+            </div>
+        </form>
+    </div>
+    
+  </body>
+
+</html>
